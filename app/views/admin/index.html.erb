@@ -1,0 +1,258 @@
+<!-- Dashboard Header -->
+<div class="mb-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard Overview</h1>
+      <p class="text-gray-600">Welcome back! Here's what's happening with your pharmacy today.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="bg-emerald-100 px-4 py-2 rounded-lg">
+        <span class="text-emerald-700 font-medium">Today: <%= Date.current.strftime("%B %d, %Y") %></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <!-- Total Products Card -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="flex items-center justify-between mb-4">
+      <div class="bg-blue-100 p-3 rounded-lg">
+        <i class="fa-solid fa-pills text-blue-600 text-xl"></i>
+      </div>
+      <span class="text-green-500 text-sm font-medium">+12%</span>
+    </div>
+    <h3 class="text-gray-500 text-sm font-medium mb-1">Total Medications</h3>
+    <p class="text-3xl font-bold text-gray-900"><%= Admin::Product.count %></p>
+    <p class="text-gray-500 text-sm mt-1">Active products in inventory</p>
+  </div>
+
+  <!-- Total Categories Card -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="flex items-center justify-between mb-4">
+      <div class="bg-purple-100 p-3 rounded-lg">
+        <i class="fa-solid fa-sitemap text-purple-600 text-xl"></i>
+      </div>
+      <span class="text-green-500 text-sm font-medium">+3%</span>
+    </div>
+    <h3 class="text-gray-500 text-sm font-medium mb-1">Categories</h3>
+    <p class="text-3xl font-bold text-gray-900"><%= Admin::Category.count %></p>
+    <p class="text-gray-500 text-sm mt-1">Product categories</p>
+  </div>
+
+  <!-- Low Stock Alert Card -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="flex items-center justify-between mb-4">
+      <div class="bg-amber-100 p-3 rounded-lg">
+        <i class="fa-solid fa-exclamation-triangle text-amber-600 text-xl"></i>
+      </div>
+      <span class="text-red-500 text-sm font-medium">Alert</span>
+    </div>
+    <h3 class="text-gray-500 text-sm font-medium mb-1">Low Stock Items</h3>
+    <p class="text-3xl font-bold text-gray-900">8</p>
+    <p class="text-gray-500 text-sm mt-1">Items need restocking</p>
+  </div>
+
+  <!-- Monthly Revenue Card -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div class="flex items-center justify-between mb-4">
+      <div class="bg-green-100 p-3 rounded-lg">
+        <i class="fa-solid fa-chart-line text-green-600 text-xl"></i>
+      </div>
+      <span class="text-green-500 text-sm font-medium">+18%</span>
+    </div>
+    <h3 class="text-gray-500 text-sm font-medium mb-1">Monthly Revenue</h3>
+    <p class="text-3xl font-bold text-gray-900">$24,580</p>
+    <p class="text-gray-500 text-sm mt-1">This month's earnings</p>
+  </div>
+</div>
+
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+
+  <!-- Quick Actions -->
+  <div class="lg:col-span-1">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-bolt text-emerald-600"></i>
+        Quick Actions
+      </h3>
+      <div class="space-y-3">
+        <%= link_to new_admin_product_path, class: "flex items-center gap-3 p-3 rounded-lg hover:bg-emerald-50 transition-colors group" do %>
+          <div class="bg-emerald-100 p-2 rounded-md group-hover:bg-emerald-200 transition-colors">
+            <i class="fa-solid fa-plus text-emerald-600"></i>
+          </div>
+          <span class="text-gray-700 font-medium">Add New Medication</span>
+        <% end %>
+
+        <%= link_to new_admin_category_path, class: "flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group" do %>
+          <div class="bg-purple-100 p-2 rounded-md group-hover:bg-purple-200 transition-colors">
+            <i class="fa-solid fa-folder-plus text-purple-600"></i>
+          </div>
+          <span class="text-gray-700 font-medium">Create Category</span>
+        <% end %>
+
+        <%= link_to admin_products_path, class: "flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-colors group" do %>
+          <div class="bg-blue-100 p-2 rounded-md group-hover:bg-blue-200 transition-colors">
+            <i class="fa-solid fa-boxes-stacked text-blue-600"></i>
+          </div>
+          <span class="text-gray-700 font-medium">Manage Inventory</span>
+        <% end %>
+
+        <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-amber-50 transition-colors group">
+          <div class="bg-amber-100 p-2 rounded-md group-hover:bg-amber-200 transition-colors">
+            <i class="fa-solid fa-chart-pie text-amber-600"></i>
+          </div>
+          <span class="text-gray-700 font-medium">View Reports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="lg:col-span-2">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-clock text-emerald-600"></i>
+        Recent Activity
+      </h3>
+      <div class="space-y-4">
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+          <div class="bg-green-100 p-2 rounded-md">
+            <i class="fa-solid fa-plus text-green-600 text-sm"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-900">New medication added</p>
+            <p class="text-xs text-gray-500">Aspirin 325mg added to Pain Relief category</p>
+            <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+          <div class="bg-blue-100 p-2 rounded-md">
+            <i class="fa-solid fa-edit text-blue-600 text-sm"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-900">Product updated</p>
+            <p class="text-xs text-gray-500">Vitamin D3 price updated to $15.99</p>
+            <p class="text-xs text-gray-400 mt-1">4 hours ago</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+          <div class="bg-purple-100 p-2 rounded-md">
+            <i class="fa-solid fa-folder text-purple-600 text-sm"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-900">Category created</p>
+            <p class="text-xs text-gray-500">New category "Diabetes Care" created</p>
+            <p class="text-xs text-gray-400 mt-1">6 hours ago</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+          <div class="bg-amber-100 p-2 rounded-md">
+            <i class="fa-solid fa-exclamation text-amber-600 text-sm"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-gray-900">Low stock alert</p>
+            <p class="text-xs text-gray-500">Ibuprofen 200mg running low (5 units left)</p>
+            <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-4 border-t border-gray-100">
+        <a href="#" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
+          View all activity →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+  <!-- Category Overview -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+        <i class="fa-solid fa-chart-bar text-emerald-600"></i>
+        Category Overview
+      </h3>
+      <%= link_to admin_categories_path, class: "text-sm text-emerald-600 hover:text-emerald-700 font-medium" do %>
+        View all →
+      <% end %>
+    </div>
+
+    <div class="space-y-3">
+      <% Admin::Category.limit(5).each do |category| %>
+        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <div class="flex items-center gap-3">
+            <div class="bg-emerald-100 p-2 rounded-md">
+              <i class="fa-solid fa-tag text-emerald-600 text-sm"></i>
+            </div>
+            <span class="text-sm font-medium text-gray-900"><%= category.name %></span>
+          </div>
+          <span class="text-sm text-gray-500"><%= category.admin_products.count %> items</span>
+        </div>
+      <% end %>
+
+      <% if Admin::Category.count == 0 %>
+        <div class="text-center py-8">
+          <i class="fa-solid fa-folder-open text-gray-300 text-3xl mb-3"></i>
+          <p class="text-gray-500 text-sm">No categories yet</p>
+          <%= link_to "Create your first category", new_admin_category_path, class: "text-emerald-600 hover:text-emerald-700 font-medium text-sm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- System Status -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-server text-emerald-600"></i>
+      System Status
+    </h3>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Database Connection</span>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span class="text-sm text-green-600 font-medium">Healthy</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">API Services</span>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span class="text-sm text-green-600 font-medium">Online</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Backup Status</span>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span class="text-sm text-green-600 font-medium">Up to date</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-700">Security Scan</span>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
+          <span class="text-sm text-amber-600 font-medium">Scheduled</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-gray-100">
+      <p class="text-xs text-gray-500">Last system check: <%= 2.hours.ago.strftime("%I:%M %p") %></p>
+    </div>
+  </div>
+</div>

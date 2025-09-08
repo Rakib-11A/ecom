@@ -1,0 +1,8 @@
+<!-- app/views/admin/stocks/new.html.erb -->
+<div class="bg-white shadow-lg rounded-lg p-6">
+  <h1 class="text-2xl font-bold text-gray-900 mb-6">Add New Stock
+    <span class="text-sm text-info">for <%= @admin_product.name %></span>
+  </h1>
+
+  <%= render 'form', stock: @stock %>
+</div>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html data-theme="cupcake">
+<head>
+  <title><%= content_for(:title) || "Ecom" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= yield :head %>
+
+  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <%# Includes all stylesheet files in app/assets/stylesheets %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+
+  <!-- Font Awesome Kit -->
+  <script src="https://kit.fontawesome.com/4e7b2bc4cd.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="h-screen flex" data-controller="sidebar">
+
+<!--Sidebar-->
+<%= render "shared/admin_sidebar" %>
+
+<!--Main Area (Navbar + Content-->
+<main class="flex flex-1 flex-col h-screen overflow-y-auto">
+  <%= render "shared/admin_navbar" %>
+
+  <div class="mx-4 my-4 text-sm text-gray-500">
+    <%= render_breadcrumbs(separator: " / ") %>
+  </div>
+
+  <div class="px-4 py-2">
+    <%= yield %>
+  </div>
+
+
+</main>
+</body>
+</html>

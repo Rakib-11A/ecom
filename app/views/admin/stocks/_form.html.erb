@@ -1,0 +1,36 @@
+
+<!-- app/views/admin/stocks/_form.html.erb -->
+<%= form_with(model: [@admin_product, @stock], class: "space-y-6") do |form| %>
+  <% if @stock.errors.any? %>
+    <div class="bg-red-50 border-l-4 border-red-500 text-red-700 px-5 py-4 rounded-lg">
+      <h2 class="font-semibold mb-2"><%= pluralize(@stock.errors.count, "error") %> prevented saving:</h2>
+      <ul class="list-disc list-inside space-y-1 text-sm">
+        <% @stock.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :size, class: "block text-gray-700 font-medium mb-1" %>
+    <%= form.number_field :size,
+                          class: "w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          placeholder: "Enter size (e.g., 38, 40, 42)" %>
+  </div>
+
+  <div>
+    <%= form.label :amount, class: "block text-gray-700 font-medium mb-1" %>
+    <%= form.number_field :amount,
+                          min: 0,
+                          class: "w-full px-4 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                          placeholder: "Enter stock amount" %>
+  </div>
+
+  <div class="flex space-x-4">
+    <%= form.submit "Save Stock",
+                    class: "bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md" %>
+    <%= link_to "Cancel", admin_product_stocks_path(@admin_product),
+                class: "bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-md" %>
+  </div>
+<% end %>

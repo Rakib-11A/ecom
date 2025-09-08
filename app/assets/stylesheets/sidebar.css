@@ -1,0 +1,6 @@
+.arrow {
+    transition: transform 0.5s ease;
+}
+.arrow:hover {
+    transform: rotate(90deg);
+}

@@ -1,0 +1,64 @@
+<% content_for :title, "Products" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Products</h1>
+    <%= link_to "New product", new_admin_product_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-2xl mt-5">
+    <!-- Table -->
+    <table class="w-full border-collapse">
+      <thead class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+      <tr>
+        <th class="text-left px-6 py-4 font-semibold">Name</th>
+        <th class="text-left px-6 py-4 font-semibold">Image</th>
+        <th class="text-left px-6 py-4 font-semibold">Price</th>
+        <th class="text-left px-6 py-4 font-semibold">Category</th>
+        <th class="text-left px-6 py-4 font-semibold">Active</th>
+        <th class="text-left px-6 py-4 text-right relative font-semibold">Action</th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white">
+      <% @admin_products.each do |product| %>
+        <tr class="hover:bg-gray-100 transition-colors duration-200 ease-in-out ">
+          <td class="px-6 py-4 text-sm text-gray-500"><%= product.name %></td>
+          <td class="px-6 py-4 text-sm text-gray-500">
+            <%= product.images.any? ? image_tag(product.images.first.variant(:thumb), class: "w-10 h-10 rounded-full  border border-gray-200 shadow-4xl") : image_tag("https://via.placeholder.com/50") %>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= number_to_currency(product.price) %></td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= product.category&.name || "N/A" %></td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= product.active? ? "Yes" : "No" %></td>
+          <td class="px-6 py-4 text-sm text-gray-500 text-right">
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn m-1">
+                <i class="fas fa-ellipsis"></i>
+              </div>
+              <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-50 w-24 p-2 shadow-sm ">
+                <li>
+                  <%= link_to "Show", admin_product_path(product) %>
+                </li>
+                <li>
+                  <%= link_to "Edit", edit_admin_product_path(product) %>
+                </li>
+                <li>
+                  <%= button_to "Delete", admin_product_path(product), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-red-600" %>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @admin_products.empty? %>
+    <p class="text-center my-10">No products found.</p>
+  <% end %>
+</div>

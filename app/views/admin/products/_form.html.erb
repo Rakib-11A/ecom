@@ -1,0 +1,78 @@
+<%= form_with(model: admin_product, class: "max-w-3xl mx-auto bg-white  rounded-3xl p-8 space-y-8") do |form| %>
+
+  <% if admin_product.errors.any? %>
+    <div class="bg-red-50 border-l-4 border-red-500 text-red-700 px-5 py-4 rounded-lg">
+      <h2 class="font-semibold mb-2"><%= pluralize(admin_product.errors.count, "error") %> prevented saving:</h2>
+      <ul class="list-disc list-inside space-y-1 text-sm">
+        <% admin_product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="grid grid-cols-1 gap-6">
+    <div>
+      <%= form.label :name, class: "block text-gray-700 font-medium mb-1" %>
+      <%= form.text_field :name, class: "w-full px-5 py-3 border rounded-2xl shadow focus:ring-2 focus:ring-blue-400 focus:border-transparent border-gray-300 text-gray-800", placeholder: "Product name" %>
+    </div>
+
+    <div>
+      <%= form.label :description, class: "block text-gray-700 font-medium mb-1" %>
+      <%= form.text_area :description, rows: 4, class: "w-full px-5 py-3 border rounded-2xl shadow focus:ring-2 focus:ring-blue-400 focus:border-transparent border-gray-300 text-gray-800", placeholder: "Describe the product…" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div>
+      <%= form.label :price, class: "block text-gray-700 font-medium mb-1" %>
+      <%= form.number_field :price, step: 0.01, class: "w-full px-5 py-3 border rounded-2xl shadow focus:ring-2 focus:ring-blue-400 focus:border-transparent border-gray-300 text-gray-800", placeholder: "0.00" %>
+    </div>
+    <div>
+      <%= form.label :category_id, "Category", class: "block text-gray-700 font-medium mb-1" %>
+      <%= form.collection_select :category_id, Admin::Category.order(:name), :id, :name, { prompt: "Select category" }, class: "w-full px-5 py-3 border rounded-2xl shadow focus:ring-2 focus:ring-blue-400 focus:border-transparent border-gray-300 text-gray-800" %>
+    </div>
+  </div>
+
+  <div>
+    <% if @admin_product.images.any? %>
+      <h2 class="text-gray-700 font-medium mb-2">Your Uploaded Images</h2>
+      <div class="flex items-center space-x-3 space-y-3">
+        <% @admin_product.images.each do |image| %>
+          <div class="relative">
+            <%= image_tag image, class: "w-20 h-20 rounded-full border border-gray-200 shadow-4xl object-cover" %>
+            <%= link_to remove_image_admin_product_path(@admin_product, image.id),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "Are you sure you want to delete this image?",
+                        },
+                        class: "absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-center rounded-full p-1" do %>
+              <i class="fa-solid fa-xmark"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+    <% end %>
+    <%= form.label :images, class: "block text-gray-700 font-medium mb-1" %>
+    <%= form.file_field :images, multiple: true, class: "w-full px-5 py-3 border rounded-2xl shadow focus:ring-2 focus:ring-blue-400 focus:border-transparent border-gray-300 text-gray-800" %>
+  </div>
+
+  <div class="flex items-center space-x-3">
+    <%= form.check_box :active, class: "h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" %>
+    <%= form.label :active, "Active", class: "text-gray-700 font-medium" %>
+  </div>
+
+  <!-- Fix: Only show stock link for existing products -->
+  <% if @admin_product.persisted? %>
+    <%= link_to "Manage Product Stock", admin_product_stocks_path(admin_product), class: "text-blue-600 hover:underline" %>
+  <% else %>
+    <p class="text-gray-500 text-sm">Save the product first to manage stock.</p>
+  <% end %>
+
+  <div class="pt-4">
+    <%= form.submit "Save Product", class: "w-full sm:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold shadow-lg transition-all" %>
+  </div>
+
+<% end %>
